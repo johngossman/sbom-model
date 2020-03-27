@@ -1,4 +1,7 @@
-import { MinItems } from "./validation";
+// Modeling the entities in the SPDX 3.0 base profile
+//
+
+import { MinItems, MustMatch } from "./validation";
 
 interface organization {
     name: string;
@@ -31,17 +34,36 @@ interface document {
     metadata : documentMetadata;
 }
 
-interface Package {
+interface Artifact {
+    SPDXID: string;
+    name : string; 
+    supplier : string; // why not identity?
+    originator: string;
+    checksum : string;
 
 }
 
-interface File {
+interface Package extends Artifact {
+    versionInfo: string;
+    packageFileName: string;
+    downloadLocation : string; // url
 
 }
 
-interface Snippet {
+interface File extends Artifact {
 
 }
 
-type Artifact = Package | File | Snippet;
+interface Snippet extends Artifact {
+
+}
+
+interface Annotation {
+    annotator: identity;
+    annotationDate : date;
+    annotationType : string; // ??? enum?
+    comment : string;
+    SPDXREF : string; // elementReference
+}
+
 
