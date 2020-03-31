@@ -1,0 +1,90 @@
+// Modeling the property sets in the SPDX 3.0 base profile
+//
+// This is an alternate modeling from the typescript model in base.d.ts
+// Both models are experiments to see how the syntax looks and whether it is 
+// convenient during the design process
+// Assume base.d.ts is more up to date
+
+syntax = "proto3";
+
+package spdx.v3.1;
+
+import "google/protobuf/timestamp.proto";
+
+message organization {
+    string name = 1;
+}
+
+message tool {
+    string name = 1;
+    string version = 2;
+}
+
+message person {
+    string name = 1;
+    string email = 2;
+    organization organization = 3;
+}
+
+// Not sure how to model this...using oneof for now
+message identity {
+    oneof identity {
+        organization organization = 1;
+        tool tool = 2;
+        person person = 3;
+    }
+}
+
+message documentMetadata {
+    string spdxVersion = 1;
+    string dataLicense = 2;
+    string SPDXID = 3;
+    string documentNamespace = 4;
+    string documentName = 5;
+    google.protobuf.timestamp created = 6;
+    repeated identity creators = 7;
+}
+
+message document {
+    documentMetadata metadata = 1;
+}
+
+message artifact {
+    string SPDXID = 1;
+    string name = 2; 
+    string supplier = 3; // why not identity?
+    string originator= 4;
+    string checksum = 5; // complex type? algorithm?
+    string summary = 6; // PackageSummary
+    string description = 7; // PackageDescription
+
+}
+
+
+// How to model inheritance in protobufs?
+// Package extends artifact
+message package {
+    string versionInfo = 1; // also called PackageVersion
+    string packageFileName = 2;
+    string downloadLocation = 3; // url type?
+
+}
+
+message file {
+    string filetype = 1; 
+}
+
+message range
+{
+    int64 start;
+    int64 end;
+}
+
+message snippet  {
+    string snippetFromFile = 1; // reference
+    range byteRange = 2
+    range lineRange = 3;
+}
+
+
+
