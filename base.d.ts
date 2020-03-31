@@ -1,4 +1,4 @@
-// Modeling the entities in the SPDX 3.0 base profile
+// Modeling the property sets in the SPDX 3.0 base profile
 //
 
 import { MinItems, MustMatch } from "./validation";
@@ -21,7 +21,7 @@ interface person {
 type identity = organization | tool | person;
 
 interface documentMetadata {
-    spdxVersion: string;
+    spdxVersion: string & MustMatch<"SPDX-3.0">;
     dataLicense: string;
     SPDXID: string;
     documentNamespace: string;
@@ -34,31 +34,35 @@ interface document {
     metadata : documentMetadata;
 }
 
-interface Artifact {
+interface artifact {
     SPDXID: string;
     name : string; 
     supplier : string; // why not identity?
     originator: string;
-    checksum : string;
+    checksum : string; // complex type? algorithm?
+    summary : string; // PackageSummary
+    description : string; // PackageDescription
 
 }
 
-interface Package extends Artifact {
-    versionInfo: string;
+interface package extends artifact {
+    versionInfo: string; // also called PackageVersion
     packageFileName: string;
-    downloadLocation : string; // url
+    downloadLocation : string; // url type?
 
 }
 
-interface File extends Artifact {
-
+interface file extends artifact {
+    fileType : string; 
 }
 
-interface Snippet extends Artifact {
-
+interface snippet extends artifact {
+    snippetFromFile : string; // reference
+    byteRange : range;
+    lineRange : range;
 }
 
-interface Annotation {
+interface annotation {
     annotator: identity;
     annotationDate : date;
     annotationType : string; // ??? enum?

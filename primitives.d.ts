@@ -24,3 +24,8 @@ declare type date = string & Attributes.Date;
  * @todo - should this have a Pattern?
  */
 declare type datetime = string & Attributes.Date & Attributes.Time;
+
+declare class range {
+  start : number;
+  end : number;
+}
