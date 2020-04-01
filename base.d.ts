@@ -5,6 +5,28 @@
 
 import { MinItems, MustMatch } from "./validation";
 
+interface linePointer {
+    lineNumber : number;
+    reference : string;
+}
+  
+interface bytePointer {
+    offset : number;
+    reference : string;
+}
+  
+declare type pointer = linePointer | bytePointer;
+  
+interface range {
+    startPointer : pointer;
+    endPointer : pointer;
+}
+
+interface checksum {
+    algorithm : string; // enum?
+    checksumValue : string;
+}
+
 interface organization {
     name: string;
 }
@@ -22,10 +44,12 @@ interface person {
 
 type identity = organization | tool | person;
 
+
+
 interface documentMetadata {
+    SPDXID: string;
     spdxVersion: string & MustMatch<"SPDX-3.0">;
     dataLicense: string;
-    SPDXID: string;
     documentNamespace: string;
     documentName: string;
     created: datetime;
@@ -41,7 +65,7 @@ interface artifact {
     name : string; 
     supplier : string; // why not identity?
     originator: string;
-    checksum : string; // complex type? algorithm?
+    checksums : checksum[]; 
     summary : string; // PackageSummary
     description : string; // PackageDescription
 
@@ -55,13 +79,12 @@ interface package extends artifact {
 }
 
 interface file extends artifact {
-    fileType : string; 
+    fileTypes : string[]; // Is filetype an enum?
 }
 
 interface snippet extends artifact {
     snippetFromFile : string; // reference
-    byteRange : range;
-    lineRange : range;
+    ranges : range[];
 }
 
 interface annotation {
