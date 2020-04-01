@@ -25,7 +25,3 @@ declare type date = string & Attributes.Date;
  */
 declare type datetime = string & Attributes.Date & Attributes.Time;
 
-declare class range {
-  start : number;
-  end : number;
-}
