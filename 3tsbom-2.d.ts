@@ -1,6 +1,6 @@
 
 // Modeling the property sets in the 3T SBOM design 
-// based on design found here: https://github.com/cdfoundation/sig-security-sbom
+// based on json-schema found here: https://github.com/cdfoundation/sig-security-sbom/blob/master/modeling/generated_3T-SBOM-EMS.schema.json
 //
 
 import { MinItems, MustMatch, Required } from "./validation";
