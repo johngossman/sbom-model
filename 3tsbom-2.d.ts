@@ -5,22 +5,6 @@
 
 import { MinItems, MustMatch, Required } from "./validation";
 
-
-interface checksum {
-    algorithm : string; // enum?
-    value : string;
-}
-
-declare enum agentType {
-    person,
-    organization,
-    tool // ???
-}
-
-declare enum toolType {
-    repository
-}
-
 interface element {
     hashes : hash[];
     annotations : annotation[];
@@ -190,15 +174,6 @@ interface environment {
 interface run {
     actor : string & Required;
     created : datetime & Required;
-}
-
-// identity is not in the json-schema, but seems like it should be
-interface identity {
-    identificationAuthority : string;
-    name : string;
-    identifier : string; // These strings seem to be complexly typed
-    creator : string; 
-    type : agentType; 
 }
 
 // Activity types
